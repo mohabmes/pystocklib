@@ -1,0 +1,9 @@
+yahoo-historical : https://github.com/AndrewRPorter/yahoo-historical
+bs4
+tld
+Libemd (https://github.com/rjsberry/libemd)
+textblob
+numpy
+matplotlib
+scipy
+pandas

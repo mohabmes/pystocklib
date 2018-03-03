@@ -1,10 +1,5 @@
 from .yahoo_historical import *
 import datetime
-path = ''
-
-
-# data = Fetcher("GOOG", [2018,1,1], [2018,2,1])
-# create_csv('GOOG.csv', data.getHistorical())
 
 
 def monthdelta(date, delta):
@@ -22,9 +17,7 @@ def strdate_to_list(str):
 	return dates_list
 
 
-
-
-class Historical_Data:
+class HistoricalData:
 
 	filename = ''
 	path = ''
@@ -48,9 +41,6 @@ class Historical_Data:
 	def date_handle(self):
 
 		if (self.from_date and self.to_date) is None:
-
-
-
 			date_now = datetime.datetime.now().strftime("%Y-%m-%d")
 			date_6month = monthdelta(datetime.datetime.strptime(date_now, "%Y-%m-%d"), -6)
 			date_now = strdate_to_list(datetime.datetime.strptime(date_now, "%Y-%m-%d"))
@@ -84,9 +74,12 @@ class Historical_Data:
 			'Volume': self.df['Volume'].values.tolist()
 		}
 
-	def get_data(self):
+	def retrieve_data(self):
 		return self.data
 
+	def retrieve_col_data(self, col_num):
+		# 'Date', 'Open', 'High', 'Low', 'Adj Close', 'Close', 'Volume'
+		return self.data['{}'.format(col_num.capitalize())]
 
 	def get_date(self):
 		return self.data['Date']
@@ -110,11 +103,4 @@ class Historical_Data:
 		return self.data['Volume']
 
 	def create_csv(self, path=''):
-		self.df.to_csv(path, encoding='utf-8')
-
-
-
-
-# hd = Historical_Data('GOOG')
-# print(hd.get_close())
-
+		self.df.to_csv('{}.csv'.format(path), encoding='utf-8')

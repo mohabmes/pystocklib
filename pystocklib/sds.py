@@ -44,8 +44,3 @@ class SDS:
 
 	def get_standard_deviation(self):
 		return self.standard_deviation
-
-
-# sd = SDS([2,2,1,2,2])
-# sdv = sd.get_standard_deviation()
-# print(sdv)

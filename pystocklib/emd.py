@@ -24,10 +24,17 @@ class EMD:
 
 	def __init__(self, x):
 		self.x = x
+		self.resize_arr()
 		# self.x = self.rev()
 		self.x = self.cutoff()
 		self.calc_imfs()
 		self.calc_t()
+
+
+	def resize_arr(self):
+		sz = len(self.x)
+		if sz > 180:
+			self.x = self.x[(sz-180):]
 
 
 	# assuming input data is sorted DSC (ex. Date), REV() will reverse it.
@@ -105,10 +112,3 @@ class EMD:
 		csv = np.loadtxt(filename, delimiter=',', skiprows=1, usecols=1)
 		data = np.array(csv)
 		return data
-
-
-# emd = EMD([10,9,6,4,3,1,32,6,8,0,32,7])
-# emd.save_figure('trend-img')
-# trend = emd.get_trend()
-# print(trend)
-

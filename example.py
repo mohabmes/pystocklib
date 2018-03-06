@@ -1,17 +1,22 @@
 from pystocklib import *
 
 # Get the historical data
-hist = HistoricalData('AAPL', from_date=[2018, 1, 1], to_date=[2018, 3, 3])
-price = hist.retrieve_col_data('close')
+hist = HistoricalData('AAPL')
+price = hist.get_high() # or use: hist.retrieve_col_data('Open')
+
+# Load data from csv file
+hist = HistoricalData()
+hist.load_csv('AAPL')
+price = hist.get_close() # 'Date', 'Open', 'High', 'Low', 'Adj', 'Close', 'Volume'
+
+# Plot & Generate CSV file
 plot(price)
 hist.create_csv('AAPL')
 
-
-# Apply EMD & show the figure
-emd = EMD(np.asarray(price))
+# Apply EMD & show the figures
+emd = EMD(np.array(price))
+emd.save_trend_figure('aapl_trend')
 emd.plot_imf(type='all')
-emd.save_trend_figure('aapl-trend')
-
 
 # Calc The SD
 sdv = SDS(price)

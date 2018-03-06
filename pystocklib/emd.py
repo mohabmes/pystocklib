@@ -24,17 +24,11 @@ class EMD:
 
 	def __init__(self, x):
 		self.x = x
-		self.resize_arr()
 		# self.x = self.rev()
-		self.x = self.cutoff()
+		# self.x = self.cutoff()
 		self.calc_imfs()
 		self.calc_t()
 
-
-	def resize_arr(self):
-		sz = len(self.x)
-		if sz > 180:
-			self.x = self.x[(sz-180):]
 
 
 	# assuming input data is sorted DSC (ex. Date), REV() will reverse it.

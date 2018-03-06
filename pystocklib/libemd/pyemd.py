@@ -58,3 +58,6 @@ def is_monotonic(x):
         return True
     elif np.all(np.diff(x) <= 0):
         return True
+
+
+# emd([0,1,1,2,3,4,10,15,25,50, 100, 150, 250, 500, 1000])

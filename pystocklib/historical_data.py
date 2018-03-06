@@ -1,5 +1,6 @@
 from .yahoo_historical import *
 import datetime
+from numpy import loadtxt
 
 
 def monthdelta(date, delta):
@@ -18,8 +19,7 @@ def strdate_to_list(str):
 
 
 class HistoricalData:
-
-	filename = ''
+	stock_name = ''
 	path = ''
 
 	data = {}
@@ -27,16 +27,27 @@ class HistoricalData:
 
 	from_date = ()
 	to_date = ()
-	stock_name = ''
 
 
-	def __init__(self, stock_name, from_date=None, to_date=None):
+	def __init__(self, stock_name=None, from_date=None, to_date=None, path=None):
 		self.stock_name = stock_name
 		self.from_date = from_date
 		self.to_date = to_date
-		self.date_handle()
-		self.fetch()
-		self.prepare_data()
+		self.path = path
+		if self.stock_name is not None:
+			self.date_handle()
+			self.fetch()
+			self.prepare_data()
+
+
+	def load_csv(self, path):
+		tmp = loadtxt('{}.csv'.format(path), delimiter=',', usecols=(range(2,8)), skiprows = 1, unpack = True)
+		self.data['Open'] = tmp[0]
+		self.data['High'] = tmp[1]
+		self.data['Low'] = tmp[2]
+		self.data['Close'] = tmp[3]
+		self.data['Adj'] = tmp[4]
+		self.data['Volume'] = tmp[5]
 
 	def date_handle(self):
 
@@ -70,7 +81,7 @@ class HistoricalData:
 			'High': self.df['High'].values.tolist(),
 			'Low': self.df['Low'].values.tolist(),
 			'Close': self.df['Close'].values.tolist(),
-			'Adj Close': self.df['Adj Close'].values.tolist(),
+			'Adj': self.df['Adj Close'].values.tolist(),
 			'Volume': self.df['Volume'].values.tolist()
 		}
 
@@ -79,7 +90,7 @@ class HistoricalData:
 
 	def retrieve_col_data(self, col_num):
 		# 'Date', 'Open', 'High', 'Low', 'Adj Close', 'Close', 'Volume'
-		return self.data['{}'.format(col_num.capitalize())]
+		return self.data[col_num]
 
 	def get_date(self):
 		return self.data['Date']
@@ -96,11 +107,12 @@ class HistoricalData:
 	def get_close(self):
 		return self.data['Close']
 
-	def get_adjclose(self):
-		return self.data['Adj Close']
+	def get_adj(self):
+		return self.data['Adj']
 
 	def get_volume(self):
 		return self.data['Volume']
 
-	def create_csv(self, path=''):
-		self.df.to_csv('{}.csv'.format(path), encoding='utf-8')
+	def create_csv(self):
+		self.df.to_csv('{}.csv'.format(self.stock_name), encoding='utf-8')
+

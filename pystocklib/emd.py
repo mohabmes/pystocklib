@@ -5,11 +5,10 @@ Created on Sat Feb 24 1:50:30 2018
 
 """
 
-# Class that utilize 'libemd' to extract trend data, plot it & save it as a image.
-# libemd => Author: Richard Berry (c) 2017 - github.com/rjsberry/libemd
+# Class that utilize 'emd' to extract trend data, plot it & save it as a image.
+# emd => Author: R. O. Parke Loyd - https://github.com/parkus/emd
 
-from .libemd.pyemd import *
-from .libemd.pysift import *
+from .emd_lib import *
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -19,15 +18,21 @@ class EMD:
 	x = ()
 	filename = ''
 	path = ''
-	imfs = ()
+	c = ()
+	r = ()
 	t = ()
 
-	def __init__(self, x):
+	def __init__(self, x, last_month=None):
 		self.x = x
 		# self.x = self.rev()
-		# self.x = self.cutoff()
-		self.calc_imfs()
+		if last_month is not None:
+			self.x = self.cutoff(last_month)
 		self.calc_t()
+		self.emd()
+
+		# print(self.r)
+		# print(self.c)
+
 
 
 
@@ -41,17 +46,18 @@ class EMD:
 		return result
 
 
-	# prevent list overflow
-	def cutoff(self):
-		if len(self.x) > 500:
-			list_values = np.resize(self.x, 500)
+	def cutoff(self, last_month):
+		if len(self.x) > last_month*30:
+			list_values = np.resize(self.x, last_month*30)
 			return list_values
 		else:
 			return self.x
 
 
-	def calc_imfs(self):
-		self.imfs = emd(self.x)
+	def emd(self):
+		c, r = emd(self.t, self.x)
+		self.c = c
+		self.r = r
 
 
 	def calc_t(self):
@@ -60,22 +66,25 @@ class EMD:
 
 
 	def get_trend(self):
-		r, c = np.shape(self.imfs)
-		if r > 1:
-			return self.imfs[r-1]
-		else:
-			return self.imfs
+		return self.r
 
 
-	def get_figure_data(self):
-		return self.get_trend(), self.t
+	def get_modes(self):
+		return self.c
 
 
-	def save_figure(self, type='trend'):
+	def save_figure(self, filename, type='trend'):
 		if type == 'trend':
-			self.save_trend_figure(self.filename)
+			self.save_trend_figure(filename)
 		elif type == 'all':
-			self.save_all_figure(self.filename)
+			self.save_all_figure(filename)
+		elif type == 'ds':
+			pf, = plt.plot(self.t, self.x)
+			pr, = plt.plot(self.t, self.r)
+			pcs = plt.plot(self.t, self.c, 'k-')
+
+			plt.legend((pf, pcs[0], pr), ('original function', 'modes', 'residual'))
+			plt.savefig('{}.png'.format(filename))
 
 
 	def save_trend_figure(self, name):
@@ -85,19 +94,40 @@ class EMD:
 
 
 	def save_all_figure(self, name):
-		for i in range(0, len(self.imfs)):
-			plt.figure()
-			plt.plot(self.t, self.imfs[i])
-			plt.savefig('{}{}.png'.format(name, i))
+		plt.figure()
+		plt.plot(self.t, self.get_trend())
+		plt.savefig('{}1.png'.format(name))
+
+		plt.figure()
+		plt.plot(self.t, self.c)
+		plt.savefig('{}2.png'.format(name))
 
 
-	def plot_imf(self, type='trend'):
+
+	def plot(self, type='trend'):
 		if type == 'trend':
 			plt.plot(self.t, self.get_trend())
+			plt.show()
 		elif type == 'all':
-			for i in range(0, len(self.imfs)):
+			plt.figure()
+			plt.plot(self.t, self.get_trend())
+			plt.figure()
+			plt.plot(self.t, self.c)
+			plt.show()
+		elif type == 'modes':
+			sz = len(self.get_modes())
+			for i in range(0, sz, 500):
+				sz = len(self.c[i])
+				t = np.linspace(0, sz, sz).transpose()
 				plt.figure()
-				plt.plot(self.t, self.imfs[i])
+				plt.plot(t, self.c[i])
+			plt.show()
+		elif type == 'ds':
+			pf, = plt.plot(self.t, self.x)
+			pr, = plt.plot(self.t, self.r)
+			pcs = plt.plot(self.t, self.c, 'k-')
+
+			plt.legend((pf, pcs[0], pr), ('original function', 'modes', 'residual'))
 			plt.show()
 
 

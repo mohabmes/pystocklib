@@ -1,7 +1,7 @@
 yahoo-historical : https://github.com/AndrewRPorter/yahoo-historical
 bs4
 tld
-Libemd (https://github.com/rjsberry/libemd)
+emd (https://github.com/parkus/emd)
 textblob
 numpy
 matplotlib

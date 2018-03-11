@@ -3,7 +3,7 @@ Python package for Stock Market analysis. (Historical Data, EMD Trend signal, Ne
 
 # How to use
 
-Get the historical data
+#### Get the historical data
 ```
 
 hist = HistoricalData('AAPL', from_date=[2005, 1, 1], to_date=[2018, 3, 1])
@@ -13,7 +13,7 @@ price = hist.get_high()
 # or use: hist.retrieve_col_data('Open') 'Date', 'Open', 'High', 'Low', 'Adj', 'Close', 'Volume'
 
 ```
-#### Output
+Output
 ```
             Date        Open        High         Low       Close   Adj Close      Volume
 0     2007-01-03   12.327143   12.368571   11.700000   10.812462   11.971429   309579900
@@ -28,7 +28,7 @@ price = hist.get_high()
 
 
 
-Plot & Generate CSV file
+#### Plot & Generate CSV file
 ```
 
 hist.create_csv()
@@ -36,13 +36,13 @@ hist.create_csv()
 plot(price)
 
 ```
-#### Output
+Output
 [CSV File](https://github.com/mohabmes/pystocklib/blob/master/data/AAPL.csv)<br>
 ![AAPL-data.png](./data/AAPL-data.png)
 
 
 
-Load data from csv file
+#### Load data from csv file
 ```
 
 hist = HistoricalData()
@@ -52,11 +52,11 @@ hist.load_csv('AAPL')
 hist.info_plot('Close')
 
 ```
-#### Output
+Output
 ![AAPL info](./data/AAPL-info.png)
 
 
-Apply EMD & show the figure
+#### Apply EMD & show the figure
 ```
 
 emd = EMD(price)
@@ -64,11 +64,11 @@ emd = EMD(price)
 emd.save_figure('AAPL-trend', type='trend') # type => trend, all, modes, ds
 
 ```
-#### Output
+Output
 ![AAPL-trend](./data/AAPL-trend.png)
 
 
-Calc The SD
+#### Calc The SD
 ```
 
 sdv = hist.standard_deviation('Open')
@@ -76,7 +76,7 @@ sdv = hist.standard_deviation('Open')
 print(sdv)
 
 ```
-#### Output
+Output
 ```
 if 0 < sdv < 25
 	then it will be considered as 'SAFE'
@@ -86,7 +86,7 @@ Otherwise
 ```
 
 
-Gather News & analysis it
+#### Gather News & analysis it
 ```
 
 news = News('Apple')
@@ -94,7 +94,7 @@ news = News('Apple')
 result = news.get_result()
 
 ```
-#### Output
+Output
 ```
 {
 	'news': [

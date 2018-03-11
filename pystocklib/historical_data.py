@@ -1,6 +1,9 @@
 from .yahoo_historical import *
 import datetime
 from numpy import loadtxt
+import pandas as pd
+from .visual import *
+import math
 
 
 def monthdelta(date, delta):
@@ -48,6 +51,8 @@ class HistoricalData:
 		self.data['Close'] = tmp[3]
 		self.data['Adj'] = tmp[4]
 		self.data['Volume'] = tmp[5]
+		self.df = pd.read_csv('{}.csv'.format(path))
+		self.stock_name = path
 
 	def date_handle(self):
 
@@ -116,3 +121,33 @@ class HistoricalData:
 	def create_csv(self):
 		self.df.to_csv('{}.csv'.format(self.stock_name), encoding='utf-8')
 
+	def moving_average(self, values):
+		ma = pd.rolling_mean(self.df[values], 100)
+		return ma
+
+	def moving_average_plot(self, col):
+		subplot('{}-ma'.format(self.stock_name),
+				[self.df[col], 'Price'],
+				[self.moving_average(col), 'AVG'])
+
+
+	def high_minus_low(self):
+		self.df['HL'] = self.df['High'] - self.df['Low']
+		return self.df['HL']
+
+
+	def high_minus_low_plot(self):
+		subplot1('{}-HL'.format(self.stock_name),
+				[self.high_minus_low(), 'H-L'])
+
+
+	def info_plot(self, col):
+		subplot_info(self.stock_name, [
+			[self.df[col], 'Price'],
+			[self.moving_average(col), 'AVG'],
+			[self.high_minus_low(), 'H-L']
+		])
+
+	def standard_deviation(self, col):
+		sd = self.df[col].std()
+		return sd

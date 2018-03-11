@@ -10,8 +10,8 @@ Created on Sat Feb 24 1:50:30 2018
 
 from .emd_lib import *
 import numpy as np
-from matplotlib import pyplot as plt
-
+# from matplotlib import pyplot as plt
+from .visual import plot_fig, plot_figs, save_fig
 
 class EMD:
 
@@ -76,63 +76,42 @@ class EMD:
 	def save_figure(self, filename, type='trend'):
 		if type == 'trend':
 			self.save_trend_figure(filename)
-		elif type == 'all':
-			self.save_all_figure(filename)
 		elif type == 'ds':
-			pf, = plt.plot(self.t, self.x)
-			pr, = plt.plot(self.t, self.r)
-			pcs = plt.plot(self.t, self.c, 'k-')
-
-			plt.legend((pf, pcs[0], pr), ('original function', 'modes', 'residual'))
-			plt.savefig('{}.png'.format(filename))
+			self.save_all_figure(filename)
 
 
 	def save_trend_figure(self, name):
-		plt.figure()
-		plt.plot(self.t, self.get_trend())
-		plt.savefig('{}.png'.format(name))
+		save_fig(self.t, self.get_trend(), '{}'.format(name))
 
 
 	def save_all_figure(self, name):
-		plt.figure()
-		plt.plot(self.t, self.get_trend())
-		plt.savefig('{}1.png'.format(name))
+		pf, = plt.plot(self.t, self.x)
+		pr, = plt.plot(self.t, self.get_trend())
 
-		plt.figure()
-		plt.plot(self.t, self.c)
-		plt.savefig('{}2.png'.format(name))
-
+		plt.legend((pf, pr), ('Price', 'Trend'))
+		plt.savefig('{}.png'.format(name))
 
 
 	def plot(self, type='trend'):
 		if type == 'trend':
-			plt.plot(self.t, self.get_trend())
-			plt.show()
+			plot_fig(self.t, self.get_trend())
 		elif type == 'all':
-			plt.figure()
-			plt.plot(self.t, self.get_trend())
-			plt.figure()
-			plt.plot(self.t, self.c)
-			plt.show()
+			plot_figs([
+						[self.t, self.get_trend()],
+						[self.t, self.c]
+						])
 		elif type == 'modes':
 			sz = len(self.get_modes())
+			imfs_sz = len(self.c[0])
+			t = np.linspace(0, imfs_sz, imfs_sz).transpose()
 			for i in range(0, sz, 500):
-				sz = len(self.c[i])
-				t = np.linspace(0, sz, sz).transpose()
 				plt.figure()
 				plt.plot(t, self.c[i])
 			plt.show()
 		elif type == 'ds':
 			pf, = plt.plot(self.t, self.x)
-			pr, = plt.plot(self.t, self.r)
-			pcs = plt.plot(self.t, self.c, 'k-')
+			pr, = plt.plot(self.t, self.get_trend())
 
-			plt.legend((pf, pcs[0], pr), ('original function', 'modes', 'residual'))
+			plt.legend((pf, pr), ('original function', 'residual'))
 			plt.show()
 
-
-	def load_csv(self):
-		filename = "{}.csv".format(self.filename)
-		csv = np.loadtxt(filename, delimiter=',', skiprows=1, usecols=1)
-		data = np.array(csv)
-		return data

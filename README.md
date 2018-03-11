@@ -15,7 +15,15 @@ price = hist.get_high()
 ```
 #### Output
 ```
-
+            Date        Open        High         Low       Close   Adj Close      Volume
+0     2007-01-03   12.327143   12.368571   11.700000   10.812462   11.971429   309579900
+1     2007-01-04   12.007143   12.278571   11.974286   11.052453   12.237143   211815100
+2     2007-01-05   12.252857   12.314285   12.057143   10.973743   12.150000   208685400
+3     2007-01-08   12.280000   12.361428   12.182858   11.027935   12.210000   199276700
+4     2007-01-09   12.350000   13.282857   12.164286   11.944029   13.224286   837324600
+5     2007-01-10   13.535714   13.971429   13.350000   12.515617   13.857142   738220000
+6     2007-01-11   13.705714   13.825714   13.585714   12.360788   13.685715   360063200
+7     2007-01-12   13.512857   13.580000   13.318571   12.208535   13.517143   328172600
 ```
 
 
@@ -29,8 +37,8 @@ plot(price)
 
 ```
 #### Output
-[CSV File](https://github.com/mohabmes/pystocklib/tree/master/pystocklib/AAPL.csv)<br>
-![Alt text](./data/AAPL-data.png)
+[CSV File](https://github.com/mohabmes/pystocklib/blob/master/data/AAPL.csv)<br>
+![AAPL-data.png](./data/AAPL-data.png)
 
 
 
@@ -45,9 +53,7 @@ hist.info_plot('Close')
 
 ```
 #### Output
-```
-![Alt text](./data/AAPL-info.png)
-```
+![AAPL info](./data/AAPL-info.png)
 
 
 Apply EMD & show the figure
@@ -59,9 +65,7 @@ emd.save_figure('AAPL-trend', type='trend') # type => trend, all, modes, ds
 
 ```
 #### Output
-```
-![Alt text](./data/AAPL-trend.png)
-```
+![AAPL-trend](./data/AAPL-trend.png)
 
 
 Calc The SD
@@ -95,16 +99,16 @@ result = news.get_result()
 {
 	'news': [
 		{
-		'text': 'Apple May Be Working on High-End Headphones and a Cheaper MacBook Air',
-		'a': 'http://fortune.com/2018/03/10/apple-headphones-macbook-air/',
-		'website': 'fortune.com',
-		'sentiment': 0.6
+			'text': 'Apple May Be Working on High-End Headphones and a Cheaper MacBook Air',
+			'a': 'http://fortune.com/2018/03/10/apple-headphones-macbook-air/',
+			'website': 'fortune.com',
+			'sentiment': 0.6
 		},
 		{
-		'text': "Apple's 14 Week December 2016 Quarter Seems To Have Confused A Lot Of People",
-		'a': 'https://www.forbes.com/sites/chuckjones/2018/03/09/apples-14-week-december-2016-quarter-seems-to-have-confused-a-lot-of-people/',
-		'website': 'forbes.com',
-		'sentiment': -0.4
+			'text': "Apple's 14 Week December 2016 Quarter Seems To Have Confused A Lot Of People",
+			'a': 'https://www.forbes.com/sites/chuckjones/2018/03/09/apples-14-week-december-2016-quarter-seems-to-have-confused-a-lot-of-people/',
+			'website': 'forbes.com',
+			'sentiment': -0.4
 		}
 		...
 		...

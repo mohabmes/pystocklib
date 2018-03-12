@@ -25,8 +25,8 @@ price = hist.get_high()
 6     2007-01-11   13.705714   13.825714   13.585714   12.360788   13.685715   360063200
 7     2007-01-12   13.512857   13.580000   13.318571   12.208535   13.517143   328172600
 ```
-
-
+<br /><br />
+<br /><br />
 
 #### Plot & Generate CSV file
 ```
@@ -39,7 +39,8 @@ plot(price)
 ###### Output
 [CSV File](https://github.com/mohabmes/pystocklib/blob/master/data/AAPL.csv)<br>
 ![AAPL-data.png](./data/AAPL-data.png)
-
+<br /><br />
+<br /><br />
 
 
 #### Load data from csv file
@@ -54,7 +55,8 @@ hist.info_plot('Close')
 ```
 ###### Output
 ![AAPL info](./data/AAPL-info.png)
-
+<br /><br />
+<br /><br />
 
 #### Apply EMD & show the figure
 ```
@@ -66,7 +68,9 @@ emd.save_figure('AAPL-trend', type='trend') # type => trend, all, modes, ds
 ```
 ###### Output
 ![AAPL-trend](./data/AAPL-trend.png)
-
+![AAPL-trend](./data/AAPL-trend-data.png)
+<br /><br />
+<br /><br />
 
 #### Calc The SD
 ```
@@ -84,7 +88,8 @@ Otherwise
 	it's 'RISKY'
 
 ```
-
+<br /><br />
+<br /><br />
 
 #### Gather News & analysis it
 ```

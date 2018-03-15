@@ -1,5 +1,28 @@
 # pystocklib
-Python package for Stock Market analysis. (Historical Data, EMD Trend signal, News extraction, News analysis, etc..)
+Python package for Stock Market analysis. (Historical Data, News analysis, visual, Empirical Mode Decomposition)
+
+# Features
+- Historical Data
+	- load_csv
+	- get_date, get_open, get_high, get_low, get_close, get_adj, get_volume
+	- retrieve_col_data
+	- create_csv
+	- moving_average
+	- high_minus_low
+	- standard_deviation
+	- info_plot
+- News analysis
+	- extract_news
+	- get_sentiment
+	- get_news
+	- get_result
+- visual
+	- plot_fig
+	- save_fig
+- Empirical Mode Decomposition (EMD)
+	- get_trend
+	- get_modes
+	- save_figure
 
 # How to use
 
@@ -26,7 +49,6 @@ price = hist.get_high()
 7     2007-01-12   13.512857   13.580000   13.318571   12.208535   13.517143   328172600
 ```
 <br /><br />
-<br /><br />
 
 #### Plot & Generate CSV file
 ```
@@ -39,7 +61,6 @@ plot(price)
 ###### Output
 [CSV File](https://github.com/mohabmes/pystocklib/blob/master/data/AAPL.csv)<br>
 ![AAPL-data.png](./data/AAPL-data.png)
-<br /><br />
 <br /><br />
 
 
@@ -56,7 +77,6 @@ hist.info_plot('Close')
 ###### Output
 ![AAPL info](./data/AAPL-info.png)
 <br /><br />
-<br /><br />
 
 #### Apply EMD & show the figure
 ```
@@ -69,7 +89,6 @@ emd.save_figure('AAPL-trend', type='trend') # type => trend, all, modes, ds
 ###### Output
 ![AAPL-trend](./data/AAPL-trend.png)
 ![AAPL-trend](./data/AAPL-trend-data.png)
-<br /><br />
 <br /><br />
 
 #### Calc The SD
@@ -88,7 +107,6 @@ Otherwise
 	it's 'RISKY'
 
 ```
-<br /><br />
 <br /><br />
 
 #### Gather News & analysis it
@@ -110,8 +128,8 @@ result = news.get_result()
 			'sentiment': 0.6
 		},
 		{
-			'text': "Apple's 14 Week December 2016 Quarter Seems To Have Confused A Lot Of People",
-			'a': 'https://www.forbes.com/sites/chuckjones/2018/03/09/apples-14-week-december-2016-quarter-seems-to-have-confused-a-lot-of-people/',
+			'text': "Apple's December 2016 Quarter Seems To Have Confused A Lot Of People",
+			'a': 'https://www.forbes.com/sites/chuckjones/2018/apples-14-week-december-2016/',
 			'website': 'forbes.com',
 			'sentiment': -0.4
 		}
@@ -119,7 +137,7 @@ result = news.get_result()
 		...
 		...
 	],
-	'sentiment': 0.019337121212121215
+	'sentiment': 77.4
 }
 
 ```

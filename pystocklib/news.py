@@ -3,15 +3,6 @@ from bs4 import BeautifulSoup
 from tld import get_tld
 from textblob import TextBlob
 
-def get_sentiment(keyword):
-	all_news = init(keyword)
-	vnst = calc_sentiment(all_news)
-
-	result = {'sentiment': vnst, 'news': all_news }
-	return result
-
-
-# print(get_sentiment("apple"))
 
 class News:
 
@@ -37,7 +28,6 @@ class News:
 		self.bs = BeautifulSoup(src_code, "html.parser")
 
 
-
 	def extract_news(self):
 		all_news_markup = self.bs.find("div", {"class": "deQdld"})
 
@@ -55,7 +45,6 @@ class News:
 				self.all_news.append(news.copy())
 
 
-
 	@staticmethod
 	def sentiment(str):
 		blob = TextBlob(str)
@@ -64,16 +53,23 @@ class News:
 
 	def calc_sentiment(self):
 		result = 0
+		cnt = 0
 
 		for news in self.all_news:
-			result += news['sentiment']
+			alpha = 0
+			if news['sentiment'] > 0:
+				cnt +=1
+				alpha = 1
+			elif news['sentiment'] < 0:
+				cnt += 1
+			result += alpha
 
 		self.sentiment = result
-		self.sentiment = float(result) / len(self.all_news)
+		self.sentiment = float(result) / cnt
 
 
 	def get_sentiment(self):
-		return self.sentiment
+		return round(self.sentiment * 100, 2)
 
 
 	def get_news(self):

@@ -11,9 +11,11 @@ class News:
 	bs = ''
 	sentiment = 0
 	result = {}
+	path = ""
 
-	def __init__(self, topic):
+	def __init__(self, topic, path=None):
 		self.topic = topic
+		self.path = path
 		self.get_markup()
 		self.extract_news()
 		self.calc_sentiment()
@@ -21,23 +23,23 @@ class News:
 
 	def get_markup(self):
 
-		url = 'https://news.google.com/news/search/section/q/{}'.format(self.topic)
-
+		url = 'https://news.google.com/search?q={}'.format(self.topic)
 		resp = requests.get(url, allow_redirects=True)
 		src_code = resp.text.encode('ascii', 'replace')
 		self.bs = BeautifulSoup(src_code, "html.parser")
 
 
 	def extract_news(self):
-		all_news_markup = self.bs.find("div", {"class": "deQdld"})
+		all_news_markup = self.bs.find("div", {"class": "lBwEZb BL5WZb xP6mwf"})
 
-		for ch in all_news_markup.findAll("c-wiz", {"class": "PaqQNc"}):
+		for ch in all_news_markup.findAll("div", {"jsmodel": "zT6vwb"}):
 
-			for item in ch.findAll("a", {"class": "nuEeue", "aria-level": "2"}):
+			for item in ch.findAll("a", {"class": "ipQwMb Q7tWef"}):
+				href = item.get('href')
+				href = href.replace('./', 'https://news.google.com/')
 				news = {
 					"text": item.text,
-					"a": item.get('href'),
-					"website": get_tld(item.get('href')),
+					"a": href,
 					"sentiment": self.sentiment(item.text)
 				}
 
@@ -81,10 +83,7 @@ class News:
 			'sentiment': self.get_sentiment()
 		}
 
-
-
-
-# news = News('Google')
-# all = news.get_result()
-# print(all)
-# print(news.get_sentiment())
+	def export_json(self):
+		import json
+		with open('{}-news.json'.format(self.path+'/'+self.topic), 'w') as outfile:
+			json.dump(self.get_result(), outfile)
